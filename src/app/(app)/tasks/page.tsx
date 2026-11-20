@@ -1,9 +1,21 @@
 import type { Metadata } from "next";
-import { PageHeader } from "@/components/shared/PageHeader";
+import { Suspense } from "react";
+import { PageHeaderSkeleton, ListSkeleton } from "@/components/shared/skeletons";
+import { TasksView } from "@/features/tasks/components/TasksView";
 
 export const metadata: Metadata = { title: "Tasks" };
 
-// Placeholder: replaced by the feature implementation.
 export default function TasksPage() {
-  return <PageHeader title="Tasks" description="Coming together…" />;
+  return (
+    <Suspense
+      fallback={
+        <>
+          <PageHeaderSkeleton />
+          <ListSkeleton rows={6} />
+        </>
+      }
+    >
+      <TasksView />
+    </Suspense>
+  );
 }
