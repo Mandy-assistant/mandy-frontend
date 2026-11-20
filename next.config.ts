@@ -1,11 +1,8 @@
 import type { NextConfig } from "next";
-import bundleAnalyzer from "@next/bundle-analyzer";
 
 // The browser calls /api/v1 on the frontend's own origin and Next forwards it to FastAPI.
 // That keeps the auth cookies first-party and avoids CORS in the browser.
 const apiTarget = process.env.API_PROXY_TARGET ?? "http://localhost:8000";
-
-const withBundleAnalyzer = bundleAnalyzer({ enabled: process.env.ANALYZE === "true" });
 
 const nextConfig: NextConfig = {
   cacheComponents: true,
@@ -24,4 +21,4 @@ const nextConfig: NextConfig = {
   },
 };
 
-export default withBundleAnalyzer(nextConfig);
+export default nextConfig;
