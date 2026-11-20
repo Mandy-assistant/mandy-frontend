@@ -1,9 +1,21 @@
 import type { Metadata } from "next";
-import { PageHeader } from "@/components/shared/PageHeader";
+import { Suspense } from "react";
+import { CardGridSkeleton, PageHeaderSkeleton } from "@/components/shared/skeletons";
+import { RoadmapsView } from "@/features/roadmaps/components/RoadmapsView";
 
 export const metadata: Metadata = { title: "Roadmaps" };
 
-// Placeholder: replaced by the feature implementation.
 export default function RoadmapsPage() {
-  return <PageHeader title="Roadmaps" description="Coming together…" />;
+  return (
+    <Suspense
+      fallback={
+        <>
+          <PageHeaderSkeleton />
+          <CardGridSkeleton count={3} />
+        </>
+      }
+    >
+      <RoadmapsView />
+    </Suspense>
+  );
 }
