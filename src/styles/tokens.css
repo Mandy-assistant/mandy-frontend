@@ -1,206 +1,208 @@
 /*
- * Design tokens — the only file to edit for colours, radii, shadows and type.
+ * Mandy design tokens — the only file to edit for colours, radii, shadows and type.
+ * Values match the Figma file (Design System page) and ~/mandy-design/mandy-prototype.html.
  *
- * Three layers, same as outreach-automation-frontend (minus the code generator):
- *   1. Palette   raw colours  -> bg-neutral-13, text-blue-1 …        (@theme)
- *   2. Roles     what a colour is for -> --primary, --border …    (:root / .dark)
- *   3. Bridge    roles as utilities   -> bg-primary, border-border (@theme inline)
+ *   1. Roles   what a colour is for (--primary, --border …), light in :root, dark in .dark
+ *   2. Bridge  roles as Tailwind utilities (bg-primary, text-muted-foreground, bg-status-offer …)
  *
- * Prefer role utilities (bg-primary, text-body) in components; reach for the
- * palette only for one-off accents. To add a role: declare it in :root, override
- * it in .dark if needed, and add one line to the bridge.
+ * Components use role utilities only — never hex values.
  */
 
-/* 1. Palette ------------------------------------------------------------ */
-@theme {
-  --color-blue-1: #0066ff;
-  --color-blue-2: #0052cc;
-  --color-blue-3: #1E293B;
-  --color-blue-4: #141B34;
-  --color-blue-5: #2563EB;
-  --color-blue-6: #E0E7FF;
-
-  --color-green-1: #34c759;
-  --color-green-2: #DEFFDB;
-  --color-green-3: #227E00;
-
-  --color-amber-1: #ff9500;
-
-  --color-purple-1: #7E22CE;
-  --color-purple-2: #E9D5FF;
-  --color-purple-3: #FAF5FF;
-
-  --color-red-1: #ff3b30;
-  --color-red-2: #FFDBDB;
-  --color-red-3: #7E0000;
-  --color-red-4: #ff4a4a;
-
-  --color-yellow-1: #E39300;
-  --color-yellow-2: #FFD6B2;
-  --color-yellow-3: #FFFBEB;
-  --color-yellow-4: #FDE68A;
-
-  --color-brown-1: #78350F;
-
-  --color-neutral-1: #ffffff;
-  --color-neutral-2: #fafafa;
-  --color-neutral-3: #f5f5f5;
-  --color-neutral-4: #f4f4f4;
-  --color-neutral-5: #f1f5f9;
-  --color-neutral-6: #d8dae5;
-  --color-neutral-7: #d1d5db;
-  --color-neutral-8: #adadad;
-  --color-neutral-9: #a0aec0;
-  --color-neutral-10: #6b7280;
-  --color-neutral-11: #64748B;
-  --color-neutral-12: #1e293b;
-  --color-neutral-13: #0f172a;
-  --color-neutral-14: #0d0d0d;
-  --color-neutral-15: #8A8A8A;
-  --color-neutral-16: #334155;
-  --color-neutral-17: #232c3b;
-  --color-neutral-18: #f8fafc;
-  --color-neutral-19: #f8f8f8;
-  --color-neutral-20: #f3f3f3;
-  --color-neutral-21: #f0f0f0;
-  --color-neutral-22: #475569;
-  --color-neutral-23: #4b5563;
-  --color-neutral-24: #1f2937;
-  --color-neutral-25: #94A3B8;
-  --color-neutral-26: #080C16;
-
-  /* type */
-  --text-2xs: 0.6875rem;
-  --text-2xs--line-height: 1rem;
-
-  /* layout */
-  --container-form: 25rem;
-  --container-page: 80rem;
-
-  /* shadows */
-  --shadow-glass: 0 8px 32px -8px rgb(2 6 23 / 0.60), 0 2px 8px -2px rgb(2 6 23 / 0.40);
-  --shadow-popover: 0 12px 24px -6px rgb(15 23 42 / 0.22), 0 4px 10px -4px rgb(15 23 42 / 0.14);
-  --shadow-card: 0 1px 2px 0 rgb(15 23 42 / 0.04), 0 8px 24px -12px rgb(15 23 42 / 0.12);
-  --shadow-drop: 0 1px 2px 0 rgb(15 23 42 / 0.05), 0 4px 12px -4px rgb(15 23 42 / 0.10), 0 24px 48px -16px rgb(15 23 42 / 0.16);
-  --shadow-field: 0 1px 2px 0 rgb(15 23 42 / 0.05);
-  --shadow-field-hover: 0 2px 6px -1px rgb(15 23 42 / 0.10), 0 1px 2px 0 rgb(15 23 42 / 0.06);
-
-  /* radius */
-  --radius: 0.625rem;
-  --radius-sm: calc(var(--radius) * 0.6);
-  --radius-md: calc(var(--radius) * 0.8);
-  --radius-lg: var(--radius);
-  --radius-xl: calc(var(--radius) * 1.4);
-}
-
-/* 2. Roles -------------------------------------------------------------- */
+/* 1. Roles --------------------------------------------------------------- */
 :root {
+  /* Surfaces */
+  --background: #f7f7fb;
+  --foreground: #0f0e17;
+  --surface: #ffffff;
+  --surface-2: #f1f0f7;
+  --surface-hover: #ebe9f4;
+  --card: var(--surface);
+  --card-foreground: var(--foreground);
+  --popover: var(--surface);
+  --popover-foreground: var(--foreground);
+  --muted: var(--surface-2);
+  --muted-foreground: #615e78; /* AA on background + surface-2 */
+  --glass: rgb(255 255 255 / 0.86);
+
   /* Brand */
-  --primary: var(--color-neutral-13);
-  --primary-hover: var(--color-blue-2);
-  --primary-foreground: var(--color-neutral-1);
-  --secondary: var(--color-neutral-11);
-  --secondary-foreground: var(--color-neutral-1);
+  --primary: #7c5cff;
+  --primary-strong: #6a46ff; /* text on light surfaces, AA */
+  --primary-foreground: #ffffff;
+  --primary-soft: #eee9ff;
+  --cyan: #06b6d4;
+  --cyan-soft: #e0f7fb;
+  --secondary: var(--surface-2);
+  --secondary-foreground: var(--foreground);
+  /* shadcn "accent" = hover/selected background in menus and lists */
+  --accent: var(--primary-soft);
+  --accent-foreground: var(--primary-strong);
 
   /* Status */
-  --success: var(--color-green-1);
-  --warning: var(--color-amber-1);
-  --error: var(--color-red-1);
-  --destructive: var(--color-red-1);
+  --success: #16a34a;
+  --success-soft: #dcfce7;
+  --warning: #b45309;
+  --warning-soft: #fef3c7;
+  --destructive: #dc2626;
+  --destructive-soft: #fee2e2;
+  --error: var(--destructive);
+  --info: #2563eb;
+  --info-soft: #dbeafe;
 
-  /* Text */
-  --foreground: var(--color-neutral-13);
-  --heading: var(--color-neutral-13);
-  --body: var(--color-neutral-11);
-  --label: var(--color-neutral-14);
-  --placeholder: var(--color-neutral-8);
-  --muted-foreground: var(--color-neutral-10);
+  /* Job pipeline */
+  --status-saved: #8a87a0;
+  --status-applied: var(--info);
+  --status-interview: #d97706;
+  --status-offer: var(--success);
+  --status-rejected: var(--destructive);
 
-  /* Surfaces */
-  --background: var(--color-neutral-1);
-  --surface: var(--color-neutral-1);
-  --surface-subtle: var(--color-neutral-2);
-  --surface-hover: var(--color-neutral-5);
-  --muted: var(--color-neutral-3);
+  /* Task priority */
+  --priority-high: var(--destructive);
+  --priority-medium: #d97706;
+  --priority-low: var(--success);
 
-  /* Borders */
-  --border: var(--color-neutral-6);
-  --border-subtle: var(--color-neutral-4);
-  --input: var(--color-neutral-6);
-  --ring: var(--color-neutral-11);
+  /* Lines */
+  --border: #e6e4ef;
+  --input: #dedbea;
+  --ring: var(--primary);
 
-  /* Icons */
-  --icon: var(--color-neutral-9);
-  --icon-strong: var(--color-neutral-12);
+  /* Dark "focus" card and unlock stage (dark in both themes) */
+  --focus-bg: #14121f;
+  --focus-foreground: #f4f3fa;
+  --focus-muted: #a7a4bd;
+  --stage-bg: #0b0a12;
+  --stage-foreground: #f4f3fa;
+  --stage-muted: #a7a4bd;
+  --stage-line: rgb(255 255 255 / 0.12);
+
+  /* Effects */
+  --gradient-brand: linear-gradient(135deg, #7c5cff 0%, #22d3ee 100%);
+  --shadow-card: 0 1px 2px rgb(15 13 38 / 0.05), 0 8px 24px -4px rgb(15 13 38 / 0.07);
+  --shadow-pop: 0 18px 44px -10px rgb(15 13 38 / 0.22);
+  --shadow-glow: 0 10px 28px -8px rgb(124 92 255 / 0.6);
 }
 
 .dark {
-  /* Brand */
-  --primary: var(--color-neutral-18);
-  --primary-hover: var(--color-blue-1);
-  --primary-foreground: var(--color-neutral-13);
-  --secondary: var(--color-neutral-16);
-  --secondary-foreground: var(--color-neutral-18);
+  --background: #0b0a12;
+  --foreground: #f4f3fa;
+  --surface: #14121f;
+  --surface-2: #1c1a2b;
+  --surface-hover: #242238;
+  --muted-foreground: #a7a4bd;
+  --glass: rgb(20 18 31 / 0.86);
 
-  /* Status */
-  --error: var(--color-red-4);
-  --destructive: var(--color-red-4);
+  --primary: #8b70ff;
+  --primary-strong: #a895ff;
+  --primary-foreground: #ffffff;
+  --primary-soft: #241c4a;
+  --cyan: #22d3ee;
+  --cyan-soft: #0e2e36;
 
-  /* Text */
-  --foreground: var(--color-neutral-18);
-  --heading: var(--color-neutral-18);
-  --body: var(--color-neutral-7);
-  --label: var(--color-neutral-18);
-  --placeholder: var(--color-neutral-15);
-  --muted-foreground: var(--color-neutral-9);
+  --success: #22c55e;
+  --success-soft: #0f2a1a;
+  --warning: #fbbf24;
+  --warning-soft: #2e2410;
+  --destructive: #f87171;
+  --destructive-soft: #2e1416;
+  --info: #60a5fa;
+  --info-soft: #122340;
 
-  /* Surfaces */
-  --background: var(--color-neutral-13);
-  --surface: var(--color-neutral-13);
-  --surface-subtle: var(--color-neutral-12);
-  --surface-hover: var(--color-neutral-16);
-  --muted: var(--color-neutral-16);
+  --status-saved: #8a87a0;
+  --status-interview: #fbbf24;
+  --priority-medium: #fbbf24;
 
-  /* Borders */
-  --border: var(--color-neutral-16);
-  --border-subtle: var(--color-neutral-12);
-  --input: var(--color-neutral-16);
-  --ring: var(--color-neutral-22);
+  --border: #2a2740;
+  --input: #34304d;
 
-  /* Icons */
-  --icon: var(--color-neutral-9);
-  --icon-strong: var(--color-neutral-7);
+  --focus-bg: #1c1a2b;
+
+  --shadow-card: 0 1px 2px rgb(0 0 0 / 0.3), 0 8px 24px -4px rgb(0 0 0 / 0.35);
+  --shadow-pop: 0 18px 44px -10px rgb(0 0 0 / 0.6);
+  --shadow-glow: 0 10px 28px -8px rgb(139 112 255 / 0.55);
 }
 
-/* 3. Bridge ------------------------------------------------------------- */
+/* 2. Bridge -------------------------------------------------------------- */
 @theme inline {
-  /* next/font sets --font-manrope on <html> (see app/layout.tsx) */
-  --font-sans: var(--font-manrope), ui-sans-serif, system-ui, sans-serif;
+  /* next/font sets these on <html> (see app/layout.tsx) */
+  --font-sans: var(--font-inter), ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-mono: var(--font-jetbrains), ui-monospace, "SF Mono", Menlo, monospace;
+
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-surface: var(--surface);
+  --color-surface-2: var(--surface-2);
+  --color-surface-hover: var(--surface-hover);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-glass: var(--glass);
 
   --color-primary: var(--primary);
-  --color-primary-hover: var(--primary-hover);
+  --color-primary-strong: var(--primary-strong);
   --color-primary-foreground: var(--primary-foreground);
+  --color-primary-soft: var(--primary-soft);
+  --color-cyan: var(--cyan);
+  --color-cyan-soft: var(--cyan-soft);
   --color-secondary: var(--secondary);
   --color-secondary-foreground: var(--secondary-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+
   --color-success: var(--success);
+  --color-success-soft: var(--success-soft);
   --color-warning: var(--warning);
-  --color-error: var(--error);
+  --color-warning-soft: var(--warning-soft);
   --color-destructive: var(--destructive);
-  --color-foreground: var(--foreground);
-  --color-heading: var(--heading);
-  --color-body: var(--body);
-  --color-label: var(--label);
-  --color-placeholder: var(--placeholder);
-  --color-muted-foreground: var(--muted-foreground);
-  --color-background: var(--background);
-  --color-surface: var(--surface);
-  --color-surface-subtle: var(--surface-subtle);
-  --color-surface-hover: var(--surface-hover);
-  --color-muted: var(--muted);
+  --color-destructive-soft: var(--destructive-soft);
+  --color-error: var(--error);
+  --color-info: var(--info);
+  --color-info-soft: var(--info-soft);
+
+  --color-status-saved: var(--status-saved);
+  --color-status-applied: var(--status-applied);
+  --color-status-interview: var(--status-interview);
+  --color-status-offer: var(--status-offer);
+  --color-status-rejected: var(--status-rejected);
+  --color-priority-high: var(--priority-high);
+  --color-priority-medium: var(--priority-medium);
+  --color-priority-low: var(--priority-low);
+
   --color-border: var(--border);
-  --color-border-subtle: var(--border-subtle);
   --color-input: var(--input);
   --color-ring: var(--ring);
-  --color-icon: var(--icon);
-  --color-icon-strong: var(--icon-strong);
+
+  --color-focus: var(--focus-bg);
+  --color-focus-foreground: var(--focus-foreground);
+  --color-focus-muted: var(--focus-muted);
+  --color-stage: var(--stage-bg);
+  --color-stage-foreground: var(--stage-foreground);
+  --color-stage-muted: var(--stage-muted);
+  --color-stage-line: var(--stage-line);
+
+  --shadow-card: var(--shadow-card);
+  --shadow-pop: var(--shadow-pop);
+  --shadow-glow: var(--shadow-glow);
+
+  --radius: 12px;
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 16px;
+  --radius-xl: 24px;
+  --radius-2xl: 28px;
+
+  --container-page: 82.5rem;
+
+  --ease-out-expo: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+/* Utilities that Tailwind can't express from tokens alone */
+@utility bg-brand-gradient {
+  background-image: var(--gradient-brand);
+}
+@utility text-brand-gradient {
+  background-image: var(--gradient-brand);
+  background-clip: text;
+  color: transparent;
 }
