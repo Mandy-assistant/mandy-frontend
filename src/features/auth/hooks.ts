@@ -1,7 +1,6 @@
 "use client";
 
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { useRouter } from "next/navigation";
 import { authApi } from "./api";
 
 export const authKeys = {
@@ -19,14 +18,16 @@ export const useCurrentUser = () =>
 /** "Lock Mandy": ends the session, clears every cached query and returns to the unlock screen. */
 export const useLock = () => {
   const queryClient = useQueryClient();
-  const router = useRouter();
   return useMutation({
     mutationFn: authApi.logout,
     meta: { silentError: true },
     onSettled: () => {
-      queryClient.clear();
-      router.replace("/unlock");
-      router.refresh();
+      // Don't clear() here: mounted queries would refetch with the dead session and race this navigation.
+      void queryClient.cancelQueries();
+      // Hard navigation on purpose: with Cache Components, visited routes stay mounted (hidden) and would
+      // refetch with the dead session. A full load drops them and every in-memory trace of the session,
+      // including the query cache.
+      window.location.replace("/unlock");
     },
   });
 };

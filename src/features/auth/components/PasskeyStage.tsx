@@ -15,7 +15,7 @@ export const OrbStage = ({ state }: { state: PasskeyState }) => {
   return (
     <motion.div
       className="relative mb-2 grid size-[200px] place-items-center sm:size-[260px]"
-      initial={{ opacity: 0, scale: reduced ? 1 : 0.6 }}
+      initial={{ opacity: 0, scale: 0.6 }}
       animate={{ opacity: 1, scale: state === "success" && !reduced ? 1.15 : 1 }}
       transition={{ duration: 0.6, ease: easeOut }}
     >
@@ -36,11 +36,10 @@ export const OrbStage = ({ state }: { state: PasskeyState }) => {
 
 /** Rises children in one after another (y 16 → 0, 40ms apart). */
 export const RiseIn = ({ children, index = 0, className }: { children: ReactNode; index?: number; className?: string }) => {
-  const reduced = useReducedMotion();
   return (
     <motion.div
       className={className}
-      initial={{ opacity: 0, y: reduced ? 0 : 16 }}
+      initial={{ opacity: 0, y: 16 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.4, ease: easeOut, delay: 0.25 + index * staggerStep }}
     >
