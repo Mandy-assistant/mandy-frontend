@@ -10,7 +10,7 @@ Same architecture and tokens as `outreach-automation-frontend`, simplified for N
 ```bash
 cp .env.example .env.local
 npm install
-npm run dev        # http://localhost:3000
+npm run dev        # http://localhost:3001
 ```
 
 | Script              | What it does                         |
