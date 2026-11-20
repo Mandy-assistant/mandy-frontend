@@ -1,9 +1,22 @@
 import type { Metadata } from "next";
-import { PageHeader } from "@/components/shared/PageHeader";
+import { Suspense } from "react";
+import { PageHeaderSkeleton } from "@/components/shared/skeletons";
+import { BoardSkeleton } from "@/features/jobs/components/JobBoard";
+import { JobsView } from "@/features/jobs/components/JobsView";
 
 export const metadata: Metadata = { title: "Jobs" };
 
-// Placeholder: replaced by the feature implementation.
 export default function JobsPage() {
-  return <PageHeader title="Jobs" description="Coming together…" />;
+  return (
+    <Suspense
+      fallback={
+        <>
+          <PageHeaderSkeleton />
+          <BoardSkeleton />
+        </>
+      }
+    >
+      <JobsView />
+    </Suspense>
+  );
 }
