@@ -1,6 +1,6 @@
 import { cn } from "@/utils/cn";
 
-export const Shimmer = ({ className }: { className?: string }) => <div aria-hidden className={cn("shimmer rounded-md", className)} />;
+export const Shimmer = ({ className }: { className?: string }) => <div aria-hidden className={cn("skeleton-shimmer rounded-md", className)} />;
 
 const Loading = ({ children, className }: { children: React.ReactNode; className?: string }) => (
   <div role="status" aria-label="Loading" className={className}>

@@ -8,11 +8,12 @@ import { duration, easeOut, fadeUp, pressable, staggerStep } from "@/lib/motion"
 /** Fade + 8px slide-up whenever the route changes. */
 export const PageTransition = ({ children, className }: { children: ReactNode; className?: string }) => {
   const pathname = usePathname();
-  const reduced = useReducedMotion();
+  // Don't branch on useReducedMotion() for initial values: it's null on the server, which breaks hydration.
+  // <MotionConfig reducedMotion="user"> (providers) skips the y movement for those users.
   return (
     <motion.div
       key={pathname}
-      initial={{ opacity: 0, y: reduced ? 0 : 8 }}
+      initial={{ opacity: 0, y: 8 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: duration.base, ease: easeOut }}
       className={className}
@@ -36,10 +37,9 @@ export const Stagger = ({ step = staggerStep, delay = 0, children, ...props }: S
   </motion.div>
 );
 
-export const StaggerItem = ({ distance = 16, ...props }: HTMLMotionProps<"div"> & { distance?: number }) => {
-  const reduced = useReducedMotion();
-  return <motion.div variants={fadeUp(reduced, distance)} {...props} />;
-};
+export const StaggerItem = ({ distance = 16, ...props }: HTMLMotionProps<"div"> & { distance?: number }) => (
+  <motion.div variants={fadeUp(false, distance)} {...props} />
+);
 
 /** Card/button wrapper with hover lift and press feedback. */
 export const Pressable = (props: HTMLMotionProps<"div">) => {
@@ -60,7 +60,7 @@ export const AnimatedNumber = ({
   const ref = useRef<HTMLSpanElement>(null);
   const inView = useInView(ref, { once: true });
   const reduced = useReducedMotion();
-  const mv = useMotionValue(reduced ? value : 0);
+  const mv = useMotionValue(0);
   const text = useTransform(mv, format);
 
   useEffect(() => {

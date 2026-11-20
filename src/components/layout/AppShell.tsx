@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState, type ReactNode } from "react";
+import { Suspense, useEffect, useState, type ReactNode } from "react";
 import { PageTransition } from "@/components/motion";
 import { BottomNav } from "./BottomNav";
 import { CommandPalette } from "./CommandPalette";
@@ -44,14 +44,23 @@ export const AppShell = ({ children }: { children: ReactNode }) => {
       <a href="#main" className="sr-only focus:not-sr-only focus:fixed focus:top-3 focus:left-3 focus:z-50 focus:rounded-md focus:bg-primary focus:px-3 focus:py-2 focus:text-primary-foreground">
         Skip to content
       </a>
-      <Sidebar collapsed={collapsed} onToggle={toggle} />
+      {/* usePathname() is only known at request time on dynamic routes ([id]), so each reader gets a boundary. */}
+      <Suspense fallback={<div aria-hidden className={collapsed ? "hidden w-[72px] shrink-0 md:block" : "hidden w-[232px] shrink-0 md:block"} />}>
+        <Sidebar collapsed={collapsed} onToggle={toggle} />
+      </Suspense>
       <div className="min-w-0 flex-1 pb-[calc(92px+env(safe-area-inset-bottom))] md:px-6 md:pb-10">
-        <Topbar />
+        <Suspense fallback={<div aria-hidden className="mb-4 h-16 md:mb-2" />}>
+          <Topbar />
+        </Suspense>
         <main id="main" className="mx-auto w-full max-w-page">
-          <PageTransition>{children}</PageTransition>
+          <Suspense fallback={children}>
+            <PageTransition>{children}</PageTransition>
+          </Suspense>
         </main>
       </div>
-      <BottomNav />
+      <Suspense>
+        <BottomNav />
+      </Suspense>
       <CommandPalette />
     </div>
   );

@@ -1,6 +1,5 @@
 import Link from "next/link";
 import { Orb } from "@/components/shared/Orb";
-import { buttonVariants } from "@/components/ui/button";
 
 export default function NotFound() {
   return (
@@ -12,7 +11,10 @@ export default function NotFound() {
         </div>
         <h1 className="text-2xl font-bold">This page wandered off</h1>
         <p className="text-muted-foreground">The link may be old, or the item was deleted.</p>
-        <Link href="/" className={buttonVariants()}>
+        <Link
+          href="/"
+          className="inline-flex h-10 items-center rounded-md bg-primary px-4 font-medium text-primary-foreground shadow-glow transition hover:-translate-y-px"
+        >
           Back to your daily brief
         </Link>
       </section>

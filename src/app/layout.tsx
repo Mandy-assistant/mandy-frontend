@@ -7,9 +7,11 @@ const inter = Inter({ variable: "--font-inter", subsets: ["latin"] });
 const jetbrains = JetBrains_Mono({ variable: "--font-jetbrains", subsets: ["latin"], weight: ["500", "700"] });
 
 export const metadata: Metadata = {
+  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3001"),
   title: { default: "Mandy", template: "%s · Mandy" },
   description: "Mandy — your personal assistant for study, jobs and career growth.",
   applicationName: "Mandy",
+  icons: { apple: "/icons/apple-touch-icon.png" },
   appleWebApp: { capable: true, title: "Mandy", statusBarStyle: "black-translucent" },
   openGraph: {
     title: "Mandy",
