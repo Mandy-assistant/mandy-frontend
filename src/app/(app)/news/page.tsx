@@ -1,9 +1,21 @@
 import type { Metadata } from "next";
-import { PageHeader } from "@/components/shared/PageHeader";
+import { Suspense } from "react";
+import { CardGridSkeleton, PageHeaderSkeleton } from "@/components/shared/skeletons";
+import { NewsFeed } from "@/features/news/components/NewsFeed";
 
-export const metadata: Metadata = { title: "News" };
+export const metadata: Metadata = { title: "Tech news" };
 
-// Placeholder: replaced by the feature implementation.
 export default function NewsPage() {
-  return <PageHeader title="News" description="Coming together…" />;
+  return (
+    <Suspense
+      fallback={
+        <>
+          <PageHeaderSkeleton />
+          <CardGridSkeleton count={6} className="gap-[18px] md:grid-cols-2 lg:grid-cols-3" />
+        </>
+      }
+    >
+      <NewsFeed />
+    </Suspense>
+  );
 }
