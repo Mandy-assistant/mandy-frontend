@@ -1,9 +1,14 @@
 import type { Metadata } from "next";
-import { PageHeader } from "@/components/shared/PageHeader";
+import { Suspense } from "react";
+import { DetailSkeleton } from "@/components/shared/skeletons";
+import { ProfileView } from "@/features/profile/components/ProfileView";
 
 export const metadata: Metadata = { title: "Profile" };
 
-// Placeholder: replaced by the feature implementation.
 export default function ProfilePage() {
-  return <PageHeader title="Profile" description="Coming together…" />;
+  return (
+    <Suspense fallback={<DetailSkeleton />}>
+      <ProfileView />
+    </Suspense>
+  );
 }
