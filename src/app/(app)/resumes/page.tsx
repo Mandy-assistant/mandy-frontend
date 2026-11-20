@@ -1,9 +1,21 @@
 import type { Metadata } from "next";
-import { PageHeader } from "@/components/shared/PageHeader";
+import { Suspense } from "react";
+import { CardGridSkeleton, PageHeaderSkeleton } from "@/components/shared/skeletons";
+import { ResumesView } from "@/features/resumes/components/ResumesView";
 
 export const metadata: Metadata = { title: "Resumes" };
 
-// Placeholder: replaced by the feature implementation.
 export default function ResumesPage() {
-  return <PageHeader title="Resumes" description="Coming together…" />;
+  return (
+    <Suspense
+      fallback={
+        <>
+          <PageHeaderSkeleton />
+          <CardGridSkeleton count={3} />
+        </>
+      }
+    >
+      <ResumesView />
+    </Suspense>
+  );
 }
