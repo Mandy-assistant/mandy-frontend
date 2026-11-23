@@ -525,6 +525,75 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/api/v1/jobs/discover": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Openings from public job boards, ranked for you, with an AI fit check */
+        get: operations["discover_api_v1_jobs_discover_get"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/jobs/discover/{posting_id}/track": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Add the opening to your job tracker */
+        post: operations["track_api_v1_jobs_discover__posting_id__track_post"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/jobs/discover/{posting_id}/hide": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        /** Hide */
+        put: operations["hide_api_v1_jobs_discover__posting_id__hide_put"];
+        post?: never;
+        /** Unhide */
+        delete: operations["unhide_api_v1_jobs_discover__posting_id__hide_delete"];
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/jobs/discover/refresh": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Pull job boards now */
+        post: operations["refresh_api_v1_jobs_discover_refresh_post"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/api/v1/jobs": {
         parameters: {
             query?: never;
@@ -658,6 +727,40 @@ export interface paths {
         put?: never;
         /** Let Gemini plan a roadmap (4-8 milestones with resources) and save it */
         post: operations["generate_roadmap_api_v1_roadmaps_generate_post"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/resumes/generate": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Describe the template, look and content; Gemini builds it from your profile */
+        post: operations["generate_resume_api_v1_resumes_generate_post"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/resumes/{resume_id}/revise": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Change a resume with a prompt (saved as a new version you can restore from) */
+        post: operations["revise_resume_api_v1_resumes__resume_id__revise_post"];
         delete?: never;
         options?: never;
         head?: never;
@@ -858,6 +961,40 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/api/v1/news/feed": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** For you: ranked by your interests, freshness and popularity, with AI notes */
+        get: operations["feed_api_v1_news_feed_get"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/news/sources": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Sources for the stories row */
+        get: operations["sources_api_v1_news_sources_get"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/api/v1/news/saved": {
         parameters: {
             query?: never;
@@ -893,6 +1030,59 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/api/v1/news/{item_id}/like": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        /** Like */
+        put: operations["like_api_v1_news__item_id__like_put"];
+        post?: never;
+        /** Unlike */
+        delete: operations["unlike_api_v1_news__item_id__like_delete"];
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/news/{item_id}/hide": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        /** Not interested: drop it from your feed and learn from it */
+        put: operations["hide_api_v1_news__item_id__hide_put"];
+        post?: never;
+        /** Unhide */
+        delete: operations["unhide_api_v1_news__item_id__hide_delete"];
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/news/{item_id}/open": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Record that you opened a story (a light interest signal) */
+        post: operations["opened_api_v1_news__item_id__open_post"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/api/v1/news/refresh": {
         parameters: {
             query?: never;
@@ -902,8 +1092,26 @@ export interface paths {
         };
         get?: never;
         put?: never;
-        /** Pull RSS feeds now (a feed that is down is skipped, never an error) */
+        /** Pull every source now (a source that is down is skipped, never an error) */
         post: operations["refresh_api_v1_news_refresh_post"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/interests": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** What Mandy has learned about you */
+        get: operations["get_interests_api_v1_interests_get"];
+        /** Follow or mute topics, set job regions */
+        put: operations["update_interests_api_v1_interests_put"];
+        post?: never;
         delete?: never;
         options?: never;
         head?: never;
@@ -1062,6 +1270,29 @@ export interface components {
             streak: components["schemas"]["Streak"];
             /** Timeline */
             timeline: components["schemas"]["TimelineEntry"][];
+        };
+        /** DiscoverPage */
+        DiscoverPage: {
+            /** Items */
+            items: components["schemas"]["PostingOut"][];
+            /** Total */
+            total: number;
+            /** Page */
+            page: number;
+            /** Size */
+            size: number;
+            /** Pages */
+            pages: number;
+            /**
+             * Personalizing
+             * @default false
+             */
+            personalizing: boolean;
+        };
+        /** DiscoverRefreshResult */
+        DiscoverRefreshResult: {
+            /** Added */
+            added: number;
         };
         /** EducationCreate */
         EducationCreate: {
@@ -1222,6 +1453,24 @@ export interface components {
             /** Highlights */
             highlights?: string[] | null;
         };
+        /** FeedPage */
+        FeedPage: {
+            /** Items */
+            items: components["schemas"]["NewsItemOut"][];
+            /** Total */
+            total: number;
+            /** Page */
+            page: number;
+            /** Size */
+            size: number;
+            /** Pages */
+            pages: number;
+            /**
+             * Personalizing
+             * @default false
+             */
+            personalizing: boolean;
+        };
         /** FlowOptions */
         FlowOptions: {
             /** Flow Id */
@@ -1313,6 +1562,34 @@ export interface components {
             /** Content */
             content: string;
         };
+        /** InterestsOut */
+        InterestsOut: {
+            /** Followed */
+            followed: string[];
+            /** Muted */
+            muted: string[];
+            /** Job Regions */
+            job_regions: ("remote" | "india" | "anywhere")[];
+            /**
+             * Learned
+             * @description Strongest learned interests, highest first
+             */
+            learned: components["schemas"]["LearnedTerm"][];
+            /**
+             * Context
+             * @description What the AI is told about you
+             */
+            context: string;
+        };
+        /** InterestsUpdate */
+        InterestsUpdate: {
+            /** Followed */
+            followed?: string[] | null;
+            /** Muted */
+            muted?: string[] | null;
+            /** Job Regions */
+            job_regions?: ("remote" | "india" | "anywhere")[] | null;
+        };
         /** JobCreate */
         JobCreate: {
             /** Location */
@@ -1367,6 +1644,15 @@ export interface components {
             to_status: components["schemas"]["JobStatus"];
             /** Changed At */
             changed_at: string;
+        };
+        /** JobFit */
+        JobFit: {
+            /** Fit */
+            fit: number;
+            /** Reason */
+            reason: string;
+            /** Gaps */
+            gaps: string;
         };
         /** JobOut */
         JobOut: {
@@ -1451,6 +1737,18 @@ export interface components {
             /** Position */
             position?: number | null;
         };
+        /** LearnedTerm */
+        LearnedTerm: {
+            /** Term */
+            term: string;
+            /** Weight */
+            weight: number;
+        };
+        /** LikedState */
+        LikedState: {
+            /** Is Liked */
+            is_liked: boolean;
+        };
         /** Links */
         Links: {
             /** Github */
@@ -1462,6 +1760,11 @@ export interface components {
             /** Website */
             website?: string | null;
         };
+        /**
+         * MatchStatus
+         * @enum {string}
+         */
+        MatchStatus: "new" | "hidden" | "tracked";
         /** MilestoneCreate */
         MilestoneCreate: {
             /** Title */
@@ -1540,7 +1843,14 @@ export interface components {
          * NewsCategory
          * @enum {string}
          */
-        NewsCategory: "ai" | "web" | "cloud" | "data" | "security";
+        NewsCategory: "ai" | "web" | "cloud" | "data" | "security" | "dev" | "mobile" | "career";
+        /** NewsInsightOut */
+        NewsInsightOut: {
+            /** Relevance */
+            relevance: number;
+            /** Reason */
+            reason: string;
+        };
         /** NewsItemOut */
         NewsItemOut: {
             /**
@@ -1561,11 +1871,57 @@ export interface components {
             category: components["schemas"]["NewsCategory"];
             /** Published At */
             published_at: string;
+            /** @default article */
+            kind: components["schemas"]["NewsKind"];
+            /**
+             * Score
+             * @default 0
+             */
+            score: number;
+            /**
+             * Comments
+             * @default 0
+             */
+            comments: number;
+            /** Discussion Url */
+            discussion_url?: string | null;
+            /** Author */
+            author?: string | null;
+            /**
+             * Tags
+             * @default []
+             */
+            tags: string[];
             /**
              * Is Saved
              * @default false
              */
             is_saved: boolean;
+            /**
+             * Is Liked
+             * @default false
+             */
+            is_liked: boolean;
+            insight?: components["schemas"]["NewsInsightOut"] | null;
+        };
+        /**
+         * NewsKind
+         * @enum {string}
+         */
+        NewsKind: "article" | "discussion" | "repo" | "launch";
+        /** NewsSourceOut */
+        NewsSourceOut: {
+            /** Source */
+            source: string;
+            /** Count */
+            count: number;
+            /**
+             * Latest At
+             * Format: date-time
+             */
+            latest_at: string;
+            /** Preview Image */
+            preview_image: string | null;
         };
         /** Page[JobOut] */
         Page_JobOut_: {
@@ -1636,6 +1992,50 @@ export interface components {
              * @default 0
              */
             rejected: number;
+        };
+        /** PostingOut */
+        PostingOut: {
+            /**
+             * Id
+             * Format: uuid
+             */
+            id: string;
+            /** Source */
+            source: string;
+            /** Url */
+            url: string;
+            /** Company */
+            company: string;
+            /** Role */
+            role: string;
+            /** Location */
+            location: string;
+            /** Remote */
+            remote: boolean;
+            /** Regions */
+            regions: string[];
+            /** Tags */
+            tags: string[];
+            /** Salary */
+            salary: string | null;
+            /** Employment Type */
+            employment_type: string | null;
+            /** Summary */
+            summary: string;
+            /** Logo Url */
+            logo_url: string | null;
+            /** Posted At */
+            posted_at: string;
+            /**
+             * Match Score
+             * @default 0
+             */
+            match_score: number;
+            fit?: components["schemas"]["JobFit"] | null;
+            /** @default new */
+            status: components["schemas"]["MatchStatus"];
+            /** Job Id */
+            job_id?: string | null;
         };
         /** Preferences */
         Preferences: {
@@ -1770,6 +2170,15 @@ export interface components {
             /** Url */
             url: string;
         };
+        /** ResumeAIResult */
+        ResumeAIResult: {
+            resume: components["schemas"]["ResumeOut"];
+            /**
+             * Notes
+             * @description What the AI did and anything it could not do
+             */
+            notes: string;
+        };
         /** ResumeContent */
         ResumeContent: {
             /**
@@ -1788,6 +2197,7 @@ export interface components {
              * @default []
              */
             sections: components["schemas"]["Section"][];
+            style?: components["schemas"]["ResumeStyle"] | null;
         };
         /** ResumeCreate */
         ResumeCreate: {
@@ -1803,6 +2213,22 @@ export interface components {
             title: string;
             /** @default modern */
             template: components["schemas"]["ResumeTemplate"];
+        };
+        /** ResumeGenerate */
+        ResumeGenerate: {
+            /**
+             * Prompt
+             * @description Describe the template, look and content you want
+             * @example One page, classic serif, navy accent. Lead with my Python and ML work.
+             */
+            prompt: string;
+            /**
+             * Job Description
+             * @description Paste a job post to tailor the resume to it
+             */
+            job_description?: string | null;
+            /** Title */
+            title?: string | null;
         };
         /** ResumeHeader */
         ResumeHeader: {
@@ -1861,6 +2287,39 @@ export interface components {
             created_at: string;
             /** Updated At */
             updated_at: string;
+        };
+        /** ResumeRevise */
+        ResumeRevise: {
+            /**
+             * Prompt
+             * @example Make it fit one page and emphasise backend work
+             */
+            prompt: string;
+            /** Job Description */
+            job_description?: string | null;
+        };
+        /**
+         * ResumeStyle
+         * @description Look of the rendered resume (set by hand or by the AI from a prompt).
+         */
+        ResumeStyle: {
+            /**
+             * Accent
+             * @default #7c5cff
+             */
+            accent: string;
+            /**
+             * Font
+             * @default sans
+             * @enum {string}
+             */
+            font: "sans" | "serif" | "mono";
+            /**
+             * Density
+             * @default comfortable
+             * @enum {string}
+             */
+            density: "compact" | "comfortable";
         };
         /**
          * ResumeTemplate
@@ -3970,6 +4429,224 @@ export interface operations {
             };
         };
     };
+    discover_api_v1_jobs_discover_get: {
+        parameters: {
+            query?: {
+                /** @description Defaults to your saved regions */
+                region?: ("remote" | "india" | "anywhere") | null;
+                q?: string | null;
+                /** @description 1-based page number */
+                page?: number;
+                /** @description Items per page (max 200) */
+                size?: number;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["DiscoverPage"];
+                };
+            };
+            /** @description Unauthorized */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    track_api_v1_jobs_discover__posting_id__track_post: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                posting_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["JobOut"];
+                };
+            };
+            /** @description Unauthorized */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description Not Found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    hide_api_v1_jobs_discover__posting_id__hide_put: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                posting_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            204: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Unauthorized */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description Not Found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    unhide_api_v1_jobs_discover__posting_id__hide_delete: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                posting_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            204: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Unauthorized */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description Not Found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    refresh_api_v1_jobs_discover_refresh_post: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["DiscoverRefreshResult"];
+                };
+            };
+            /** @description Unauthorized */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+        };
+    };
     list_jobs_api_v1_jobs_get: {
         parameters: {
             query?: {
@@ -4502,6 +5179,155 @@ export interface operations {
             };
             /** @description Unauthorized */
             401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description Unprocessable Entity */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description Too Many Requests */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description Bad Gateway */
+            502: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description Service Unavailable */
+            503: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+        };
+    };
+    generate_resume_api_v1_resumes_generate_post: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["ResumeGenerate"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ResumeAIResult"];
+                };
+            };
+            /** @description Unauthorized */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description Unprocessable Entity */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description Too Many Requests */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description Bad Gateway */
+            502: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description Service Unavailable */
+            503: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+        };
+    };
+    revise_resume_api_v1_resumes__resume_id__revise_post: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                resume_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["ResumeRevise"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ResumeAIResult"];
+                };
+            };
+            /** @description Unauthorized */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description Not Found */
+            404: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -5365,6 +6191,7 @@ export interface operations {
             query?: {
                 category?: components["schemas"]["NewsCategory"] | null;
                 q?: string | null;
+                source?: string | null;
                 /** @description 1-based page number */
                 page?: number;
                 /** @description Items per page (max 200) */
@@ -5401,6 +6228,78 @@ export interface operations {
                 };
                 content: {
                     "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    feed_api_v1_news_feed_get: {
+        parameters: {
+            query?: {
+                /** @description 1-based page number */
+                page?: number;
+                /** @description Items per page (max 200) */
+                size?: number;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["FeedPage"];
+                };
+            };
+            /** @description Unauthorized */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    sources_api_v1_news_sources_get: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["NewsSourceOut"][];
+                };
+            };
+            /** @description Unauthorized */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
                 };
             };
         };
@@ -5546,6 +6445,245 @@ export interface operations {
             };
         };
     };
+    like_api_v1_news__item_id__like_put: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                item_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["LikedState"];
+                };
+            };
+            /** @description Unauthorized */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description Not Found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    unlike_api_v1_news__item_id__like_delete: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                item_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["LikedState"];
+                };
+            };
+            /** @description Unauthorized */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description Not Found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    hide_api_v1_news__item_id__hide_put: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                item_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            204: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Unauthorized */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description Not Found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    unhide_api_v1_news__item_id__hide_delete: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                item_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            204: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Unauthorized */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description Not Found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    opened_api_v1_news__item_id__open_post: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                item_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            204: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Unauthorized */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description Not Found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
     refresh_api_v1_news_refresh_post: {
         parameters: {
             query?: never;
@@ -5571,6 +6709,77 @@ export interface operations {
                 };
                 content: {
                     "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+        };
+    };
+    get_interests_api_v1_interests_get: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["InterestsOut"];
+                };
+            };
+            /** @description Unauthorized */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+        };
+    };
+    update_interests_api_v1_interests_put: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["InterestsUpdate"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["InterestsOut"];
+                };
+            };
+            /** @description Unauthorized */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
                 };
             };
         };

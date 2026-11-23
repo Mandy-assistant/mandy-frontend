@@ -1,7 +1,7 @@
 "use client";
 
 import { formatDistanceToNow, parseISO } from "date-fns";
-import { Copy, FileText, MoreHorizontal, Pencil, Plus, Trash2 } from "lucide-react";
+import { Copy, FileText, MoreHorizontal, Pencil, Plus, Trash2, Wand2 } from "lucide-react";
 import { AnimatePresence, motion } from "motion/react";
 import Link from "next/link";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
@@ -23,6 +23,7 @@ import { useHydrated } from "@/lib/use-hydrated";
 import { normalizeContent } from "../content";
 import { useDeleteResume, useDuplicateResume, useResumes } from "../hooks";
 import type { Resume } from "../types";
+import { GenerateResumeDialog } from "./GenerateResumeDialog";
 import { NewResumeDialog } from "./NewResumeDialog";
 import { ResumePreview } from "./ResumePreview";
 import { TemplateThumb } from "./TemplateThumb";
@@ -32,6 +33,7 @@ const THUMB_SCALE = 0.36;
 export const ResumesView = () => {
   const { data, isPending, isError, error, refetch } = useResumes();
   const [creating, setCreating] = useState(false);
+  const [generating, setGenerating] = useState(false);
   const [deleting, setDeleting] = useState<Resume | null>(null);
   const del = useDeleteResume();
   const params = useSearchParams();
@@ -47,9 +49,14 @@ export const ResumesView = () => {
   }, [params, router, pathname]);
 
   const newButton = (
-    <Button onClick={() => setCreating(true)} className="h-10">
-      <Plus data-icon="inline-start" /> New resume
-    </Button>
+    <div className="flex flex-wrap gap-2">
+      <Button variant="outline" onClick={() => setCreating(true)} className="h-10">
+        <Plus data-icon="inline-start" /> New resume
+      </Button>
+      <Button onClick={() => setGenerating(true)} className="h-10">
+        <Wand2 data-icon="inline-start" /> Create with AI
+      </Button>
+    </div>
   );
 
   return (
@@ -100,6 +107,7 @@ export const ResumesView = () => {
       )}
 
       <NewResumeDialog open={creating} onOpenChange={setCreating} />
+      <GenerateResumeDialog open={generating} onOpenChange={setGenerating} />
       <ConfirmDialog
         open={!!deleting}
         onOpenChange={(o) => !o && setDeleting(null)}

@@ -18,6 +18,7 @@ import {
   Smartphone,
   Sun,
   Trash2,
+  Sparkles,
 } from "lucide-react";
 import { AnimatePresence, motion } from "motion/react";
 import { useTheme } from "next-themes";
@@ -28,7 +29,9 @@ import { PageHeader } from "@/components/shared/PageHeader";
 import { ListSkeleton, Shimmer } from "@/components/shared/skeletons";
 import { ErrorState } from "@/components/shared/states";
 import { Button } from "@/components/ui/button";
+import { InstallAppCard } from "@/components/pwa/pwa";
 import { RecoveryCodes } from "@/features/auth/components/RecoveryCodes";
+import { InterestsEditor } from "@/features/interests/components/InterestsEditor";
 import { useLock, usePasskeys } from "@/features/auth/hooks";
 import type { Passkey } from "@/features/auth/api";
 import { supportsPasskeys } from "@/features/auth/passkey";
@@ -45,7 +48,9 @@ const NAV = [
   { id: "appearance", label: "Appearance", icon: Palette },
   { id: "passkeys", label: "Passkeys", icon: Fingerprint },
   { id: "recovery", label: "Recovery codes", icon: KeyRound },
+  { id: "interests", label: "Interests", icon: Sparkles },
   { id: "assistant", label: "Assistant", icon: Bot },
+  { id: "app", label: "Install app", icon: Smartphone },
   { id: "lock", label: "Lock", icon: Lock },
 ] as const;
 
@@ -71,7 +76,18 @@ export const SettingsView = () => (
         <Appearance />
         <Passkeys />
         <Recovery />
+        <SectionCard
+          id="interests"
+          title="Interests"
+          description="What ranks your news feed and job picks, and what the AI knows about you."
+          icon={<Sparkles />}
+        >
+          <InterestsEditor />
+        </SectionCard>
         <Assistant />
+        <div id="app" className="scroll-mt-24">
+          <InstallAppCard />
+        </div>
         <LockCard />
       </div>
     </div>
