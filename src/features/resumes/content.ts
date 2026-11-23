@@ -59,6 +59,7 @@ export const normalizeContent = (c: ResumeContent | null | undefined): ResumeCon
       text: s.text ?? (s.type === "summary" ? "" : null),
       items: (s.items ?? []).map((i) => ({ ...i, bullets: i.bullets ?? [], tags: i.tags ?? [] })),
     })),
+    style: c.style ?? null,
   };
 };
 

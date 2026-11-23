@@ -1,7 +1,8 @@
 import { Fragment, type ReactNode } from "react";
 import { monthYear } from "@/features/profile/format";
 import { cn } from "@/utils/cn";
-import type { ResumeContent, Section, SectionItem, Template } from "../types";
+import type { CSSProperties } from "react";
+import type { ResumeContent, ResumeFont, Section, SectionItem, Template } from "../types";
 
 /**
  * The A4 page. It is paper, so it uses the Tailwind palette (always light), not theme tokens.
@@ -30,21 +31,23 @@ type Styles = {
   chip: string;
 };
 
+// Colours come from --accent (set from the resume's style, or the template's default).
 const MODERN: Styles = {
   root: "font-sans text-neutral-800",
   sectionTitle:
-    "mb-2.5 flex items-center gap-2 text-[11px] font-bold tracking-[0.14em] text-violet-700 uppercase after:h-px after:flex-1 after:bg-violet-200",
+    "mb-2.5 flex items-center gap-2 text-[11px] font-bold tracking-[0.14em] text-[var(--accent)] uppercase after:h-px after:flex-1 after:bg-[color-mix(in_srgb,var(--accent)_25%,white)]",
   itemTitle: "text-[13.5px] font-semibold text-neutral-900",
   itemSub: "text-[12.5px] font-medium text-neutral-600",
   date: "shrink-0 text-[11.5px] font-medium text-neutral-500 tabular-nums",
   body: "text-[12.5px] leading-[1.55] text-neutral-700",
-  bullet: "marker:text-violet-500",
-  chip: "rounded-md bg-violet-50 px-1.5 py-0.5 text-[11.5px] font-medium text-violet-800",
+  bullet: "marker:text-[color-mix(in_srgb,var(--accent)_75%,white)]",
+  chip: "rounded-md bg-[color-mix(in_srgb,var(--accent)_9%,white)] px-1.5 py-0.5 text-[11.5px] font-medium text-[color-mix(in_srgb,var(--accent)_80%,black)]",
 };
 
 const CLASSIC: Styles = {
   root: "font-serif text-neutral-900",
-  sectionTitle: "mb-2.5 border-b border-neutral-800 pb-1 text-[12.5px] font-bold tracking-[0.18em] text-neutral-900 uppercase",
+  sectionTitle:
+    "mb-2.5 border-b border-[var(--accent)] pb-1 text-[12.5px] font-bold tracking-[0.18em] text-[var(--accent)] uppercase",
   itemTitle: "text-[14px] font-bold text-neutral-900",
   itemSub: "text-[13px] text-neutral-700 italic",
   date: "shrink-0 text-[12px] text-neutral-700",
@@ -53,12 +56,15 @@ const CLASSIC: Styles = {
   chip: "",
 };
 
-const Header = ({ content, template }: { content: ResumeContent; template: Template }) => {
+const FONT: Record<ResumeFont, string> = { sans: "font-sans", serif: "font-serif", mono: "font-mono" };
+const DEFAULT_ACCENT: Record<Template, string> = { modern: "#6d28d9", classic: "#171717" };
+
+const Header = ({ content, template, dense }: { content: ResumeContent; template: Template; dense: boolean }) => {
   const h = content.header;
   const contact = [h.email, h.phone, h.location, ...h.links.filter((l) => l.url).map((l) => prettyUrl(l.url))].filter(Boolean);
   if (template === "classic") {
     return (
-      <header className="mb-6 text-center">
+      <header className={cn("text-center", dense ? "mb-4" : "mb-6")}>
         <h1 className="text-[30px] leading-tight font-bold tracking-[0.06em] text-neutral-900 uppercase">
           {h.full_name || "Your Name"}
         </h1>
@@ -77,10 +83,10 @@ const Header = ({ content, template }: { content: ResumeContent; template: Templ
     );
   }
   return (
-    <header className="mb-6">
-      <div className="mb-5 h-1.5 w-16 rounded-full bg-linear-to-r from-violet-600 to-cyan-400" />
+    <header className={dense ? "mb-4" : "mb-6"}>
+      <div className={cn("h-1.5 w-16 rounded-full bg-linear-to-r from-[var(--accent)] to-cyan-400", dense ? "mb-3.5" : "mb-5")} />
       <h1 className="text-[30px] leading-tight font-bold tracking-[-0.02em] text-neutral-950">{h.full_name || "Your Name"}</h1>
-      {h.headline && <p className="mt-0.5 text-[14.5px] font-medium text-violet-700">{h.headline}</p>}
+      {h.headline && <p className="mt-0.5 text-[14.5px] font-medium text-[var(--accent)]">{h.headline}</p>}
       {contact.length > 0 && (
         <p className="mt-2.5 flex flex-wrap gap-x-3 gap-y-1 text-[11.5px] text-neutral-600">
           {contact.map((c, i) => (
@@ -125,22 +131,22 @@ const Entry = ({ item, s, extra }: { item: SectionItem; s: Styles; extra?: React
   );
 };
 
-const SectionBlock = ({ section, s, template }: { section: Section; s: Styles; template: Template }) => {
+const SectionBlock = ({ section, s, template, dense }: { section: Section; s: Styles; template: Template; dense: boolean }) => {
   const hasContent = section.type === "summary" ? !!section.text?.trim() : section.items.length > 0;
   if (!hasContent) return null;
   return (
-    <section className="mb-5">
+    <section className={dense ? "mb-3.5" : "mb-5"}>
       <h2 className={cn(s.sectionTitle, "break-after-avoid")}>{section.title}</h2>
       {section.type === "summary" && <p className={cn("whitespace-pre-line", s.body)}>{section.text}</p>}
       {(section.type === "experience" || section.type === "education") && (
-        <div className="flex flex-col gap-3.5">
+        <div className={cn("flex flex-col", dense ? "gap-2.5" : "gap-3.5")}>
           {section.items.map((it) => (
             <Entry key={it.id} item={it} s={s} />
           ))}
         </div>
       )}
       {section.type === "projects" && (
-        <div className="flex flex-col gap-3.5">
+        <div className={cn("flex flex-col", dense ? "gap-2.5" : "gap-3.5")}>
           {section.items.map((it) => (
             <Entry
               key={it.id}
@@ -203,17 +209,27 @@ export const ResumePreview = ({
   className?: string;
 }) => {
   const s = template === "classic" ? CLASSIC : MODERN;
+  const style = content.style;
+  const dense = style?.density === "compact";
   return (
     <article
       aria-label="Resume preview"
-      className={cn("resume-page bg-white px-[60px] pt-[54px] pb-[48px] [print-color-adjust:exact]", s.root, className)}
-      style={{ width: PAGE_WIDTH, minHeight: PAGE_HEIGHT }}
+      className={cn(
+        "resume-page bg-white [print-color-adjust:exact]",
+        dense ? "px-[48px] pt-[40px] pb-[36px]" : "px-[60px] pt-[54px] pb-[48px]",
+        s.root,
+        style && FONT[style.font],
+        className,
+      )}
+      style={
+        { width: PAGE_WIDTH, minHeight: PAGE_HEIGHT, "--accent": style?.accent ?? DEFAULT_ACCENT[template] } as CSSProperties
+      }
     >
-      <Header content={content} template={template} />
+      <Header content={content} template={template} dense={dense} />
       {content.sections
         .filter((sec) => sec.visible)
         .map((sec) => (
-          <SectionBlock key={sec.id} section={sec} s={s} template={template} />
+          <SectionBlock key={sec.id} section={sec} s={s} template={template} dense={dense} />
         ))}
     </article>
   );

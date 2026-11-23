@@ -22,6 +22,7 @@ import { HeaderEditor } from "./HeaderEditor";
 import { SaveIndicator } from "./SaveIndicator";
 import { PrintCopy, ScaledPreview } from "./ScaledPreview";
 import { SectionsEditor } from "./SectionsEditor";
+import { AiReviseBar, StylePopover } from "./AiResumeTools";
 import { VersionHistory } from "./VersionHistory";
 
 export const TEMPLATES = [
@@ -137,6 +138,7 @@ const EditorLoaded = ({ resume }: { resume: Resume }) => {
             onChange={(template) => edit((d) => ({ ...d, template }))}
             options={TEMPLATES.map((t) => ({ ...t, icon: <LayoutTemplate /> }))}
           />
+          <StylePopover style={draft.content.style} onChange={(style) => setContent((c) => ({ ...c, style }))} />
           <Button variant="outline" className="h-10 rounded-xl md:h-9" onClick={() => setImportOpen(true)} disabled={importing}>
             {importing ? <Loader2 className="animate-spin" data-icon="inline-start" /> : <UserRound data-icon="inline-start" />}
             <span className="max-sm:sr-only">Import from profile</span>
@@ -150,6 +152,8 @@ const EditorLoaded = ({ resume }: { resume: Resume }) => {
           </Button>
         </div>
       </div>
+
+      <AiReviseBar resumeId={resume.id} beforeRevise={autosave.flush} onRevised={replaceFromServer} />
 
       {/* Mobile: Edit / Preview */}
       <div className="lg:hidden">

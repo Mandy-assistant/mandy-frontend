@@ -13,6 +13,7 @@ import { useIsMobile } from "../use-media-query";
 import { BoardSkeleton, JobBoard } from "./JobBoard";
 import { JobDetailSheet } from "./JobDetailSheet";
 import { JobFormDialog } from "./JobFormDialog";
+import { JobsTabs } from "./JobsTabs";
 import { JobsToolbar } from "./JobsToolbar";
 import { JobTable } from "./JobTable";
 
@@ -64,7 +65,10 @@ export const JobsView = () => {
 
   // Keep the open sheet in sync with the freshest list copy.
   const items = active.data?.items;
-  const detailJob = useMemo(() => (detail.job ? (items?.find((j) => j.id === detail.job!.id) ?? detail.job) : null), [items, detail.job]);
+  const detailJob = useMemo(
+    () => (detail.job ? (items?.find((j) => j.id === detail.job!.id) ?? detail.job) : null),
+    [items, detail.job],
+  );
 
   const openJob = (job: Job) => setDetail({ open: true, job });
   const openCreate = () => setForm({ open: true });
@@ -125,9 +129,16 @@ export const JobsView = () => {
 
   return (
     <>
-      <PageHeader title="Job tracker" description={
-          view === "board" ? "Drag a card to change its status, or tap it to open details." : "Sort by any column, or open a job to see its details."
-        } actions={addButton} />
+      <PageHeader
+        title="Job tracker"
+        description={
+          view === "board"
+            ? "Drag a card to change its status, or tap it to open details."
+            : "Sort by any column, or open a job to see its details."
+        }
+        actions={addButton}
+      />
+      <JobsTabs active="tracker" />
 
       <JobsToolbar
         search={search}

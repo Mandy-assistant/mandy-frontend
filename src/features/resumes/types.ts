@@ -34,7 +34,13 @@ export type ResumeHeader = {
   links: { label: string; url: string }[];
 };
 
-export type ResumeContent = { header: ResumeHeader; sections: Section[] };
+export type ResumeFont = "sans" | "serif" | "mono";
+export type ResumeDensity = "compact" | "comfortable";
+
+/** Look of the page. null = the template's own defaults. */
+export type ResumeStyle = { accent: string; font: ResumeFont; density: ResumeDensity };
+
+export type ResumeContent = { header: ResumeHeader; sections: Section[]; style?: ResumeStyle | null };
 
 export type Resume = {
   id: string;
@@ -51,3 +57,7 @@ export type ResumeVersion = { id: string; version: number; content: ResumeConten
 export type ResumePatch = { title?: string; template?: Template; content?: ResumeContent };
 
 export type RewriteKind = "summary" | "bullet" | "cover_note";
+
+export type ResumeAIResult = { resume: Resume; notes: string };
+export type ResumeGenerateInput = { prompt: string; job_description?: string; title?: string };
+export type ResumeReviseInput = { prompt: string; job_description?: string };

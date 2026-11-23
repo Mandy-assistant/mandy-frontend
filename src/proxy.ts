@@ -32,5 +32,7 @@ export function proxy(request: NextRequest) {
 
 export const config = {
   // Everything except the API rewrite, Next internals, static files and the dev styleguide.
-  matcher: ["/((?!api/|_next/|styleguide|favicon.ico|icon|apple-icon|manifest.webmanifest|opengraph-image|.*\\.[\\w]+$).*)"],
+  matcher: [
+    "/((?!api/|_next/|styleguide|favicon.ico|icon|apple-icon|manifest.webmanifest|opengraph-image|offline|.*\\.[\\w]+$).*)",
+  ],
 };

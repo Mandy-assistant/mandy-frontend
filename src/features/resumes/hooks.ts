@@ -5,7 +5,7 @@ import { toast } from "sonner";
 import { errorMessage } from "@/lib/api/errors";
 import { aiApi, resumesApi } from "./api";
 import { resumeKeys } from "./keys";
-import type { Resume, ResumePatch, RewriteKind, Template } from "./types";
+import type { Resume, ResumeGenerateInput, ResumePatch, ResumeReviseInput, RewriteKind, Template } from "./types";
 
 export const useResumes = () => useQuery({ queryKey: resumeKeys.list(), queryFn: ({ signal }) => resumesApi.list(signal) });
 
@@ -110,3 +110,27 @@ export const useAiRewrite = () =>
     mutationFn: (body: { text: string; kind: RewriteKind }) => aiApi.rewrite(body),
     meta: { silentError: true },
   });
+
+/** Build a resume from a prompt (template, look and content), using your profile for facts. */
+export const useGenerateResume = () => {
+  const upsert = useUpsertInList();
+  return useMutation({
+    mutationFn: (body: ResumeGenerateInput) => aiApi.generate(body),
+    meta: { silentError: true },
+    onSuccess: ({ resume }) => upsert(resume),
+  });
+};
+
+/** Change a resume with a prompt. Saved as a new version, so History can undo it. */
+export const useReviseResume = (id: string) => {
+  const upsert = useUpsertInList();
+  const qc = useQueryClient();
+  return useMutation({
+    mutationFn: (body: ResumeReviseInput) => aiApi.revise(id, body),
+    meta: { silentError: true },
+    onSuccess: ({ resume }) => {
+      upsert(resume);
+      qc.invalidateQueries({ queryKey: resumeKeys.versions(id) });
+    },
+  });
+};
