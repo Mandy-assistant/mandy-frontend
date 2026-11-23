@@ -1,8 +1,20 @@
 "use client";
 
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { MutationCache, QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import { useState, type ReactNode } from "react";
-import { ApiError } from "@/utils/ApiError";
+import { toast } from "sonner";
+import { ApiError, errorMessage } from "@/lib/api/errors";
+
+declare module "@tanstack/react-query" {
+  interface Register {
+    defaultError: ApiError;
+    mutationMeta: {
+      /** Set when the mutation shows its own error UI (e.g. form field errors). */
+      silentError?: boolean;
+    };
+  }
+}
 
 const createQueryClient = () =>
   new QueryClient({
@@ -10,15 +22,25 @@ const createQueryClient = () =>
       queries: {
         staleTime: 30_000,
         refetchOnWindowFocus: false,
-        // Retry only network failures; a 4xx/5xx will not fix itself.
-        retry: (failureCount, error) => (error instanceof ApiError && !error.isNetworkError ? false : failureCount < 2),
+        // A 4xx won't fix itself; retry network/5xx once.
+        retry: (count, error) => count < 1 && (!(error instanceof ApiError) || error.isNetworkError || error.status >= 500),
       },
       mutations: { retry: false },
     },
+    // FE-14: every failed mutation shows the backend message, unless it handles errors itself.
+    mutationCache: new MutationCache({
+      onError: (error, _vars, _ctx, mutation) => {
+        if (!mutation.meta?.silentError) toast.error(errorMessage(error));
+      },
+    }),
   });
 
 export const QueryProvider = ({ children }: { children: ReactNode }) => {
-  // One client per browser session (and per request on the server), never shared between users.
   const [queryClient] = useState(createQueryClient);
-  return <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>;
+  return (
+    <QueryClientProvider client={queryClient}>
+      {children}
+      {process.env.NODE_ENV === "development" && <ReactQueryDevtools buttonPosition="bottom-left" />}
+    </QueryClientProvider>
+  );
 };

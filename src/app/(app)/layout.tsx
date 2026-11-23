@@ -1,11 +1,5 @@
-import { TopNavBar } from "@/components/organisms/TopNavBar";
-import { ProtectedGuard } from "@/guards/ProtectedGuard";
+import { AppShell } from "@/components/layout/AppShell";
 
 export default function AppLayout({ children }: LayoutProps<"/">) {
-  return (
-    <ProtectedGuard>
-      <TopNavBar />
-      <main className="mx-auto w-full max-w-page px-6 py-8">{children}</main>
-    </ProtectedGuard>
-  );
+  return <AppShell>{children}</AppShell>;
 }
